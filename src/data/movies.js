@@ -64,5 +64,137 @@ export const movies = [
     description: 'An insomniac office worker forms an underground fight club that grows into something far more dangerous.',
     image: 'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
     trailerId: null
+  },
+  {
+    id: 7,
+    title: 'The Godfather',
+    year: 1972,
+    rating: 9.2,
+    duration: '2h 55m',
+    genres: ['Crime', 'Drama'],
+    description: 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.',
+    image: 'https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg',
+    trailerId: null
+  },
+  {
+    id: 8,
+    title: 'The Matrix',
+    year: 1999,
+    rating: 8.7,
+    duration: '2h 16m',
+    genres: ['Action', 'Sci-Fi'],
+    description: 'A computer hacker discovers that the world he knows is a simulated reality and joins a rebellion against its creators.',
+    image: 'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg',
+    trailerId: null
+  },
+  {
+    id: 9,
+    title: 'The Lord of the Rings: The Fellowship of the Ring',
+    year: 2001,
+    rating: 8.9,
+    duration: '2h 59m',
+    genres: ['Adventure', 'Fantasy', 'Action'],
+    description: 'A young hobbit begins a dangerous journey to destroy a powerful ring before it falls into the hands of its evil creator.',
+    image: 'https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg',
+    trailerId: null
+  },
+  {
+    id: 10,
+    title: 'Forrest Gump',
+    year: 1994,
+    rating: 8.8,
+    duration: '2h 22m',
+    genres: ['Drama', 'Romance'],
+    description: 'A kind-hearted man experiences some of the defining events of American history while remaining devoted to the people he loves.',
+    image: 'https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg',
+    trailerId: null
+  },
+  {
+    id: 11,
+    title: 'The Prestige',
+    year: 2006,
+    rating: 8.5,
+    duration: '2h 10m',
+    genres: ['Drama', 'Mystery', 'Sci-Fi'],
+    description: 'Two rival magicians become obsessed with creating the ultimate illusion, sacrificing everything in their pursuit of greatness.',
+    image: 'https://image.tmdb.org/t/p/w500/Ag2B2KHKQPukjH7WutmgnnSNurZ.jpg',
+    trailerId: null
+  },
+  {
+    id: 12,
+    title: 'Gladiator',
+    year: 2000,
+    rating: 8.5,
+    duration: '2h 35m',
+    genres: ['Action', 'Drama', 'Adventure'],
+    description: 'A betrayed Roman general is forced into slavery and rises as a gladiator seeking revenge against the emperor who destroyed his life.',
+    image: 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg',
+    trailerId: null
+  },
+  {
+    id: 13,
+    title: 'Whiplash',
+    year: 2014,
+    rating: 8.5,
+    duration: '1h 47m',
+    genres: ['Drama', 'Music'],
+    description: 'A young jazz drummer pushes himself to his limits under the demanding guidance of an uncompromising instructor.',
+    image: 'https://image.tmdb.org/t/p/w500/7fn624j5lj3xTme2SgiLCeuedmO.jpg',
+    trailerId: null
+  },
+  {
+    id: 14,
+    title: 'Parasite',
+    year: 2019,
+    rating: 8.5,
+    duration: '2h 13m',
+    genres: ['Drama', 'Thriller', 'Comedy'],
+    description: 'A struggling family gradually finds its way into the lives of a wealthy household, with unexpected consequences.',
+    image: 'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg',
+    trailerId: null
+  },
+  {
+    id: 15,
+    title: 'The Departed',
+    year: 2006,
+    rating: 8.5,
+    duration: '2h 31m',
+    genres: ['Crime', 'Drama', 'Thriller'],
+    description: 'An undercover cop and a mole inside the police force race to identify each other while working for opposing sides of the law.',
+    image: 'https://image.tmdb.org/t/p/w500/nT97ifVT2J1yMQmeq20Qblg61T.jpg',
+    trailerId: null
+  },
+  {
+    id: 16,
+    title: 'Django Unchained',
+    year: 2012,
+    rating: 8.5,
+    duration: '2h 45m',
+    genres: ['Drama', 'Western'],
+    description: 'A freed slave teams up with a bounty hunter and sets out to rescue his wife from a brutal plantation owner.',
+    image: 'https://image.tmdb.org/t/p/w500/7oWY8VDWW7thTzWh3OKYRkWUlD5.jpg',
+    trailerId: null
+  },
+  {
+    id: 17,
+    title: 'The Green Mile',
+    year: 1999,
+    rating: 8.6,
+    duration: '3h 9m',
+    genres: ['Drama', 'Fantasy', 'Crime'],
+    description: 'A prison guard encounters a mysterious inmate whose extraordinary abilities change the lives of everyone around him.',
+    image: 'https://image.tmdb.org/t/p/w500/8VG8fDNiy50H4FedGwdSVUPoaJe.jpg',
+    trailerId: null
+  },
+  {
+    id: 18,
+    title: 'The Silence of the Lambs',
+    year: 1991,
+    rating: 8.6,
+    duration: '1h 58m',
+    genres: ['Crime', 'Drama', 'Thriller'],
+    description: 'A young FBI trainee seeks the help of an imprisoned killer to catch another dangerous murderer.',
+    image: 'https://image.tmdb.org/t/p/w500/rplLJ2hPcOQmkFhTqUte0MkEaO2.jpg',
+    trailerId: null
   }
 ]
