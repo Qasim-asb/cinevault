@@ -48,7 +48,7 @@ const MovieDetails = () => {
                 </span>
                 <span>{movie.year}</span>
                 <span>{movie.duration}</span>
-                {movie.genres.map(genre => <span key={genre}>{genre}</span>)}
+                {movie.genres.map(genre => <span key={genre} className='rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-gray-300'>{genre}</span>)}
               </div>
               <p className='mt-6 max-w-2xl leading-8 text-gray-300'>{movie.description}</p>
               <div className='mt-8 flex flex-wrap gap-3'>
