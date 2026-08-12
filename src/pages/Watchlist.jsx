@@ -1,6 +1,7 @@
 import { Heart } from 'lucide-react'
 import MovieCard from '../components/movie/MovieCard'
 import useWatchlist from '../hooks/useWatchlist'
+import { Link } from 'react-router-dom'
 
 const Watchlist = () => {
   const { watchlist } = useWatchlist()
@@ -24,6 +25,7 @@ const Watchlist = () => {
             <Heart size={48} className='text-gray-600' />
             <h2 className='mt-5 text-xl font-semibold text-white'>Your watchlist is empty</h2>
             <p className='mt-2 max-w-md text-gray-500'>Movies you add to your watchlist will appear here.</p>
+            <Link to='/movies' className='mt-6 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-gray-200'>Browse Movies</Link>
           </div>
         ) : (
           <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
