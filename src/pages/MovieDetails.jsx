@@ -1,4 +1,4 @@
-import { ArrowLeft, Play, Plus, Star } from 'lucide-react'
+import { ArrowLeft, Check, Play, Plus, Star } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { movies } from '../data/movies'
 import useWatchlist from '../hooks/useWatchlist'
@@ -41,18 +41,19 @@ const MovieDetails = () => {
               <h1 className='mt-3 text-4xl font-black text-white sm:text-5xl'>{movie.title}</h1>
               <div className='mt-5 flex flex-wrap items-center gap-4 text-sm text-gray-300'>
                 <span className='flex items-center gap-1 text-yellow-400'>
-                  <Star size={16} fill='currentColor' /> {movie.rating}
+                  <Star size={16} fill='currentColor' /> {movie.rating.toFixed(1)}
                 </span>
                 <span>{movie.year}</span>
-                <span>{movie.genre}</span>
+                <span>{movie.duration}</span>
+                {movie.genres.map(genre => <span key={genre}>{genre}</span>)}
               </div>
-              <p className='mt-6 max-w-2xl leading-8 text-gray-300'>Discover everything about {movie.title}. Explore its rating, genre, release year, and add it to your personal watchlist.</p>
+              <p className='mt-6 max-w-2xl leading-8 text-gray-300'>{movie.description}</p>
               <div className='mt-8 flex flex-wrap gap-3'>
                 <button className='flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200'>
                   <Play size={18} fill='currentColor' /> Watch Trailer
                 </button>
                 <button onClick={() => toggleWatchlist(movie)} className='flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/20'>
-                  <Plus size={18} />
+                  {movieInWatchlist ? <Check size={18} /> : <Plus size={18} />}
                   {movieInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
                 </button>
               </div>

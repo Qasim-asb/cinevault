@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const MovieCard = ({ movie }) => {
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
-  const { title, year, rating, genre, image } = movie
+  const { title, year, rating, genres, image } = movie
   const movieInWatchlist = isInWatchlist(movie.id)
 
   return (
@@ -30,10 +30,10 @@ const MovieCard = ({ movie }) => {
         <div className='mt-1 flex items-center justify-between text-xs text-gray-400'>
           <span>{year}</span>
           <span className='flex items-center gap-1 text-yellow-400'>
-            <Star size={13} fill='currentColor' /> {rating}
+            <Star size={13} fill='currentColor' /> {rating.toFixed(1)}
           </span>
         </div>
-        <p className='mt-1 text-xs text-gray-500'>{genre}</p>
+        <p className='mt-1 text-xs text-gray-500'>{genres.join(' • ')}</p>
       </Link>
     </article>
   )
