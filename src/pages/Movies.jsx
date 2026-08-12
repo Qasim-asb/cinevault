@@ -10,7 +10,7 @@ const Movies = () => {
           <p className='mt-2 text-gray-400'>Explore movies you'll love.</p>
         </div>
 
-        <MovieRow title='All Movies' movies={movies} />
+        <MovieRow title='All Movies' movies={movies} showViewAll={false} />
       </div>
     </main>
   )

@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { ArrowLeft, Check, Play, Plus, Star } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { movies } from '../data/movies'
 import useWatchlist from '../hooks/useWatchlist'
+import TrailerModal from '../components/movie/TrailerModal'
 
 const MovieDetails = () => {
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false)
   const { id } = useParams()
   const movie = movies.find(movie => movie.id === Number(id))
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
@@ -49,7 +52,7 @@ const MovieDetails = () => {
               </div>
               <p className='mt-6 max-w-2xl leading-8 text-gray-300'>{movie.description}</p>
               <div className='mt-8 flex flex-wrap gap-3'>
-                <button className='flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200'>
+                <button onClick={() => setIsTrailerOpen(true)} className='flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200'>
                   <Play size={18} fill='currentColor' /> Watch Trailer
                 </button>
                 <button onClick={() => toggleWatchlist(movie)} className='flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/20'>
@@ -61,6 +64,8 @@ const MovieDetails = () => {
           </div>
         </div>
       </section>
+
+      <TrailerModal isOpen={isTrailerOpen} onClose={() => setIsTrailerOpen(false)} title={movie.title} trailerId={movie.trailerId} />
     </main>
   )
 }

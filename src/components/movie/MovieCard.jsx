@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { Check, Play, Plus, Star } from 'lucide-react'
 import useWatchlist from '../../hooks/useWatchlist'
 import { Link } from 'react-router-dom'
+import TrailerModal from './TrailerModal'
 
 const MovieCard = ({ movie }) => {
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false)
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
   const { title, year, rating, genres, image } = movie
   const movieInWatchlist = isInWatchlist(movie.id)
@@ -16,7 +19,7 @@ const MovieCard = ({ movie }) => {
         </Link>
 
         <div className='absolute inset-x-0 bottom-0 flex translate-y-3 items-center justify-between p-3 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100'>
-          <button className='flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition hover:bg-red-500 hover:text-white' aria-label={`Play ${title}`}>
+          <button onClick={() => setIsTrailerOpen(true)} aria-label={`Play ${title}`} className='flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition hover:bg-red-500 hover:text-white'>
             <Play size={16} fill='currentColor' />
           </button>
           <button onClick={() => toggleWatchlist(movie)} className='flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition hover:bg-white hover:text-black' aria-label={movieInWatchlist ? `Remove ${title} from watchlist` : `Add ${title} to watchlist`}>
@@ -35,6 +38,8 @@ const MovieCard = ({ movie }) => {
         </div>
         <p className='mt-1 text-xs text-gray-500'>{genres.join(' • ')}</p>
       </Link>
+
+      <TrailerModal isOpen={isTrailerOpen} onClose={() => setIsTrailerOpen(false)} title={title} trailerId={movie.trailerId} />
     </article>
   )
 }

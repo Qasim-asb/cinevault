@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import { Check, Play, Plus, Star } from 'lucide-react'
 import MovieRow from '../components/movie/MovieRow'
 import { movies } from '../data/movies'
 import useWatchlist from '../hooks/useWatchlist'
+import TrailerModal from '../components/movie/TrailerModal'
 
 const featuredMovie = movies[0]
 
 const Home = () => {
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false)
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
   const movieInWatchlist = isInWatchlist(featuredMovie.id)
 
@@ -32,7 +35,7 @@ const Home = () => {
             <p className='mt-6 max-w-xl leading-7 text-gray-300'>{featuredMovie.description}</p>
 
             <div className='mt-8 flex flex-wrap gap-3'>
-              <button className='flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200'>
+              <button onClick={() => setIsTrailerOpen(true)} className='flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200'>
                 <Play size={18} fill='currentColor' /> Watch Trailer
               </button>
               <button onClick={() => toggleWatchlist(featuredMovie)} className='flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20'>
@@ -48,6 +51,8 @@ const Home = () => {
         <MovieRow title='Trending Now' movies={movies} />
         <MovieRow title='Popular Movies' movies={movies.slice().reverse()} />
       </section>
+
+      <TrailerModal isOpen={isTrailerOpen} onClose={() => setIsTrailerOpen(false)} title={featuredMovie.title} trailerId={featuredMovie.trailerId} />
     </main>
   )
 }
