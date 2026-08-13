@@ -1,25 +1,14 @@
 import { Search as SearchIcon, X } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import MovieCard from '../components/movie/MovieCard'
-import { movies } from '../data/movies'
 import useDebounce from '../hooks/useDebounce'
+import useSearchMovies from '../hooks/useSearchMovies'
 
 const Search = () => {
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounce(query)
 
-  const filteredMovies = useMemo(() => {
-    const normalizedQuery = debouncedQuery.trim().toLowerCase()
-
-    if (!normalizedQuery) return []
-
-    return movies.filter(movie => {
-      return (
-        movie.title.toLowerCase().includes(normalizedQuery) ||
-        movie.genres.some(genre => genre.toLowerCase().includes(normalizedQuery))
-      )
-    })
-  }, [debouncedQuery])
+  const { data: movies = [], isLoading, isError } = useSearchMovies(debouncedQuery)
 
   const clearSearch = () => {
     setQuery('')
@@ -35,7 +24,7 @@ const Search = () => {
           <div className='relative mt-6'>
             <SearchIcon size={20} className='absolute left-4 top-1/2 -translate-y-1/2 text-gray-500' />
 
-            <input type='text' value={query} onChange={e => setQuery(e.target.value)} placeholder='Search movies or genres...' className='w-full rounded-xl border border-white/10 bg-zinc-900 py-4 pl-12 pr-12 text-white outline-none transition placeholder:text-gray-600 focus:border-red-500' />
+            <input type='text' value={query} onChange={e => setQuery(e.target.value)} placeholder='Search movies...' className='w-full rounded-xl border border-white/10 bg-zinc-900 py-4 pl-12 pr-12 text-white outline-none transition placeholder:text-gray-600 focus:border-red-500' />
 
             {query && (
               <button onClick={clearSearch} className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-white' aria-label='Clear search'>
@@ -50,22 +39,34 @@ const Search = () => {
             <>
               <div className='mb-6'>
                 <h2 className='text-xl font-semibold text-white'>Search results</h2>
-                <p className='mt-1 text-sm text-gray-500'>
-                  {filteredMovies.length}{' '}
-                  {filteredMovies.length === 1 ? 'movie' : 'movies'}{' '}
-                  found
-                </p>
+                {!isLoading && !isError && (
+                  <p className='mt-1 text-sm text-gray-500'>
+                    {movies.length}{' '}
+                    {movies.length === 1 ? 'movie' : 'movies'}{' '}
+                    found
+                  </p>
+                )}
               </div>
 
-              {filteredMovies.length > 0 ? (
+              {isLoading ? (
+                <div className='py-16 text-center'>
+                  <p className='text-gray-400'>Searching movies...</p>
+                </div>
+              ) : isError ? (
+                <div className='rounded-2xl border border-white/10 bg-zinc-950 px-6 py-16 text-center'>
+                  <SearchIcon size={40} className='mx-auto text-gray-700' />
+                  <h2 className='mt-5 text-xl font-semibold text-white'>Search failed</h2>
+                  <p className='mt-2 text-gray-500'>Unable to search movies. Please try again.</p>
+                </div>
+              ) : movies.length > 0 ? (
                 <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
-                  {filteredMovies.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+                  {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)}
                 </div>
               ) : (
                 <div className='rounded-2xl border border-white/10 bg-zinc-950 px-6 py-16 text-center'>
                   <SearchIcon size={40} className='mx-auto text-gray-700' />
                   <h2 className='mt-5 text-xl font-semibold text-white'>No movies found</h2>
-                  <p className='mt-2 text-gray-500'>Try searching for another movie or genre.</p>
+                  <p className='mt-2 text-gray-500'>Try searching for another movie.</p>
                 </div>
               )}
             </>
@@ -73,7 +74,7 @@ const Search = () => {
             <div className='rounded-2xl border border-white/10 bg-zinc-950 px-6 py-16 text-center'>
               <SearchIcon size={40} className='mx-auto text-gray-700' />
               <h2 className='mt-5 text-xl font-semibold text-white'>Start searching</h2>
-              <p className='mt-2 text-gray-500'>Enter a movie title or genre above.</p>
+              <p className='mt-2 text-gray-500'>Enter a movie title above.</p>
             </div>
           )}
         </div>

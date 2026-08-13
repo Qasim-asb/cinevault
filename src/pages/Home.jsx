@@ -1,15 +1,34 @@
 import { useState } from 'react'
 import { Check, Play, Plus, Star } from 'lucide-react'
 import MovieRow from '../components/movie/MovieRow'
-import { movies } from '../data/movies'
 import useWatchlist from '../hooks/useWatchlist'
 import TrailerModal from '../components/movie/TrailerModal'
-
-const featuredMovie = movies[0]
+import useMovies from '../hooks/useMovies'
 
 const Home = () => {
   const [isTrailerOpen, setIsTrailerOpen] = useState(false)
+
+  const { data: movies = [], isLoading, isError } = useMovies()
+
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
+
+  if (isLoading) {
+    return (
+      <main className='flex min-h-screen items-center justify-center bg-black'>
+        <p className='text-gray-400'>Loading movies...</p>
+      </main>
+    )
+  }
+
+  if (isError || movies.length === 0) {
+    return (
+      <main className='flex min-h-screen items-center justify-center bg-black'>
+        <p className='text-gray-400'>Unable to load movies.</p>
+      </main>
+    )
+  }
+
+  const featuredMovie = movies[0]
   const movieInWatchlist = isInWatchlist(featuredMovie.id)
 
   return (

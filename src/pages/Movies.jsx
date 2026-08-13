@@ -1,7 +1,25 @@
 import MovieRow from '../components/movie/MovieRow'
-import { movies } from '../data/movies'
+import useMovies from '../hooks/useMovies'
 
 const Movies = () => {
+  const { data: movies = [], isLoading, isError } = useMovies()
+
+  if (isLoading) {
+    return (
+      <main className='flex min-h-screen items-center justify-center bg-black'>
+        <p className='text-gray-400'>Loading movies...</p>
+      </main>
+    )
+  }
+
+  if (isError) {
+    return (
+      <main className='flex min-h-screen items-center justify-center bg-black'>
+        <p className='text-gray-400'>Unable to load movies.</p>
+      </main>
+    )
+  }
+
   return (
     <main className='min-h-screen bg-black px-4 pb-16 pt-24 sm:px-6 lg:px-8'>
       <div className='mx-auto max-w-7xl'>

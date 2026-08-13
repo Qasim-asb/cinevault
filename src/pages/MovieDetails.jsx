@@ -1,17 +1,25 @@
 import { useState } from 'react'
 import { ArrowLeft, Check, Play, Plus, Star } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
-import { movies } from '../data/movies'
 import useWatchlist from '../hooks/useWatchlist'
 import TrailerModal from '../components/movie/TrailerModal'
+import useMovie from '../hooks/useMovie'
 
 const MovieDetails = () => {
   const [isTrailerOpen, setIsTrailerOpen] = useState(false)
   const { id } = useParams()
-  const movie = movies.find(movie => movie.id === Number(id))
+  const { data: movie, isLoading, isError } = useMovie(id)
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
 
-  if (!movie) {
+  if (isLoading) {
+    return (
+      <main className='flex min-h-screen items-center justify-center bg-black'>
+        <p className='text-gray-400'>Loading movie...</p>
+      </main>
+    )
+  }
+
+  if (isError || !movie) {
     return (
       <main className='flex min-h-screen items-center justify-center bg-black px-4 text-center'>
         <div>
@@ -29,7 +37,7 @@ const MovieDetails = () => {
   return (
     <main className='min-h-screen bg-black pt-16'>
       <section className='relative overflow-hidden'>
-        <img src={movie.image} alt='' className='absolute inset-0 h-full w-full object-cover opacity-20 blur-sm' />
+        <img src={movie.backdrop || movie.image} alt='' className='absolute inset-0 h-full w-full object-cover opacity-20 blur-sm' />
 
         <div className='absolute inset-0 bg-black/70' />
 
@@ -47,7 +55,7 @@ const MovieDetails = () => {
                   <Star size={16} fill='currentColor' /> {movie.rating.toFixed(1)}
                 </span>
                 <span>{movie.year}</span>
-                <span>{movie.duration}</span>
+                <span>{movie.duration ? `${movie.duration} min` : 'N/A'}</span>
                 {movie.genres.map(genre => <span key={genre} className='rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-gray-300'>{genre}</span>)}
               </div>
               <p className='mt-6 max-w-2xl leading-8 text-gray-300'>{movie.description}</p>
