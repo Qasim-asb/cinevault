@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <header className='fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-lg'>
       <div className='mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8'>
-        <NavLink to='/' className='flex items-center gap-2'>
+        <NavLink to='/' onClick={() => setIsMenuOpen(false)} className='flex items-center gap-2'>
           <Film className='text-red-500' size={28} />
           <span className='text-xl font-bold tracking-tight text-white'>
             Cine<span className='text-red-500'>Vault</span>
@@ -26,7 +26,7 @@ const Navbar = () => {
         </nav>
 
         <div className='flex items-center gap-3'>
-          <Link to='/search' className='rounded-full p-2 text-gray-300 transition hover:bg-white/10 hover:text-white' aria-label='Search'>
+          <Link to='/search' onClick={() => setIsMenuOpen(false)} aria-label='Search' className='rounded-full p-2 text-gray-300 transition hover:bg-white/10 hover:text-white'>
             <Search size={21} />
           </Link>
 

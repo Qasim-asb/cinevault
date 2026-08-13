@@ -6,6 +6,7 @@ import TrailerModal from './TrailerModal'
 
 const MovieCard = ({ movie }) => {
   const [isTrailerOpen, setIsTrailerOpen] = useState(false)
+  const [imageError, setImageError] = useState(false)
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
   const { title, year, rating, genres, image } = movie
   const movieInWatchlist = isInWatchlist(movie.id)
@@ -14,7 +15,13 @@ const MovieCard = ({ movie }) => {
     <article className='group relative w-44 shrink-0 overflow-hidden rounded-xl bg-zinc-900 sm:w-48'>
       <div className='relative aspect-[2/3] overflow-hidden'>
         <Link to={`/movies/${movie.id}`} className='block h-full w-full'>
-          <img src={image} alt={title} className='h-full w-full object-cover transition duration-500 group-hover:scale-110' />
+          {imageError ? (
+            <div className='flex h-full w-full items-center justify-center bg-zinc-800 px-4 text-center'>
+              <span className='text-sm font-semibold text-gray-500'>{title}</span>
+            </div>
+          ) : (
+            <img src={image} alt={title} loading='lazy' decoding='async' onError={() => setImageError(true)} className='h-full w-full object-cover transition duration-500 group-hover:scale-110' />
+          )}
           <div className='absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition group-hover:opacity-100' />
         </Link>
 
