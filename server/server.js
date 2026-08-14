@@ -5,6 +5,9 @@ import process from 'node:process'
 import movieRoutes from './routes/movieRoutes.js'
 import errorHandler from './middleware/errorHandler.js'
 import notFound from './middleware/notFound.js'
+import { connectDB } from './config/db.js'
+import authRoutes from './routes/authRoutes.js'
+import watchlistRoutes from './routes/watchlistRoutes.js'
 
 dotenv.config()
 
@@ -26,10 +29,14 @@ app.get('/api/health', (req, res) => {
 })
 
 app.use('/api/movies', movieRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/watchlist', watchlistRoutes)
 
 app.use(notFound)
 
 app.use(errorHandler)
+
+connectDB()
 
 const PORT = process.env.PORT || 5000
 

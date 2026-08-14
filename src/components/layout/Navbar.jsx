@@ -1,12 +1,21 @@
 import { useState } from 'react'
-import { Search, Menu, Film, X } from 'lucide-react'
-import { Link, NavLink } from 'react-router-dom'
+import { Search, Menu, Film, X, LogOut } from 'lucide-react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, logout, isLoading } = useAuth()
+  const navigate = useNavigate()
 
   const getNavClass = ({ isActive }) => {
     return `text-sm font-medium transition ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`
+  }
+
+  const handleLogout = () => {
+    logout()
+    setIsMenuOpen(false)
+    navigate('/')
   }
 
   return (
@@ -30,6 +39,17 @@ const Navbar = () => {
             <Search size={21} />
           </Link>
 
+          {!isLoading && (
+            user ? (
+              <>
+                <span className='hidden text-sm font-medium text-gray-300 sm:block'>{user.name}</span>
+                <button onClick={handleLogout} aria-label='Logout' className='hidden rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-gray-300 transition hover:bg-white/10 hover:text-white sm:block'>Logout</button>
+              </>
+            ) : (
+              <Link to='/login' className='hidden rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-gray-200 sm:block'>Login</Link>
+            )
+          )}
+
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} aria-expanded={isMenuOpen} className='rounded-full p-2 text-gray-300 transition hover:bg-white/10 hover:text-white md:hidden'>
             {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -42,6 +62,17 @@ const Navbar = () => {
             <NavLink to='/' onClick={() => setIsMenuOpen(false)} className={getNavClass}>Home</NavLink>
             <NavLink to='/movies' onClick={() => setIsMenuOpen(false)} className={getNavClass}>Movies</NavLink>
             <NavLink to='/watchlist' onClick={() => setIsMenuOpen(false)} className={getNavClass}>Watchlist</NavLink>
+
+            {user ? (
+              <>
+                <span className='text-sm font-medium text-gray-300'>{user.name}</span>
+                <button onClick={handleLogout} className='flex items-center gap-2 text-left text-sm font-medium text-gray-400 transition hover:text-white'>
+                  <LogOut size={17} /> Logout
+                </button>
+              </>
+            ) : (
+              <Link to='/login' onClick={() => setIsMenuOpen(false)} className='text-sm font-medium text-gray-400 transition hover:text-white'>Login</Link>
+            )}
           </div>
         </nav>
       )}

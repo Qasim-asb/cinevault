@@ -4,7 +4,27 @@ import useWatchlist from '../hooks/useWatchlist'
 import { Link } from 'react-router-dom'
 
 const Watchlist = () => {
-  const { watchlist } = useWatchlist()
+  const { watchlist, isLoading, isError } = useWatchlist()
+
+  if (isLoading) {
+    return (
+      <main className='flex min-h-screen items-center justify-center bg-black'>
+        <p className='text-gray-400'>Loading watchlist...</p>
+      </main>
+    )
+  }
+
+  if (isError) {
+    return (
+      <main className='flex min-h-screen items-center justify-center bg-black px-4 text-center'>
+        <div>
+          <Heart size={48} className='mx-auto text-gray-600' />
+          <h1 className='mt-5 text-2xl font-bold text-white'>Unable to load watchlist</h1>
+          <p className='mt-2 text-gray-500'>Please try again later.</p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className='min-h-screen bg-black px-4 pb-16 pt-24 sm:px-6 lg:px-8'>
