@@ -7,6 +7,7 @@ import Watchlist from '../pages/Watchlist'
 import NotFound from '../pages/NotFound'
 import Signup from '../pages/Signup'
 import Login from '../pages/Login'
+import ProtectedRoute from '../components/auth/ProtectedRoute'
 
 const AppRoutes = () => {
   return (
@@ -15,7 +16,9 @@ const AppRoutes = () => {
       <Route path='/movies' element={<Movies />} />
       <Route path='/movies/:id' element={<MovieDetails />} />
       <Route path='/search' element={<Search />} />
-      <Route path='/watchlist' element={<Watchlist />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path='/watchlist' element={<Watchlist />} />
+      </Route>
       <Route path='signup' element={<Signup />} />
       <Route path='login' element={<Login />} />
       <Route path='*' element={<NotFound />} />

@@ -3,7 +3,7 @@ import api from '../lib/axios'
 export const getMovies = async () => {
   const { data } = await api.get('/movies')
 
-  return data.data
+  return data.data ?? []
 }
 
 export const getMovieById = async id => {
@@ -15,5 +15,5 @@ export const getMovieById = async id => {
 export const searchMovies = async query => {
   const { data } = await api.get('/movies/search', { params: { query } })
 
-  return data.data
+  return data.data ?? []
 }

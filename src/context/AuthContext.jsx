@@ -24,7 +24,8 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token')
     setUser(null)
-    queryClient.removeQueries({ queryKey: ['currentUser'] })
+    queryClient.setQueryData(['currentUser'], null)
+    queryClient.removeQueries({ queryKey: ['watchlist'] })
   }
 
   const authenticatedUser = currentUser || user
