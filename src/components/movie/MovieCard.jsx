@@ -3,6 +3,8 @@ import { Check, Play, Plus, Star } from 'lucide-react'
 import useWatchlist from '../../hooks/useWatchlist'
 import { Link } from 'react-router-dom'
 import TrailerModal from './TrailerModal'
+import { getMovieById } from '../../services/movieService'
+import { useQueryClient } from '@tanstack/react-query'
 
 const MovieCard = ({ movie }) => {
   const [isTrailerOpen, setIsTrailerOpen] = useState(false)
@@ -10,6 +12,29 @@ const MovieCard = ({ movie }) => {
   const { toggleWatchlist, isInWatchlist } = useWatchlist()
   const { title, year, rating, genres, image } = movie
   const movieInWatchlist = isInWatchlist(movie.id)
+  const [trailerId, setTrailerId] = useState(null)
+  const [isTrailerLoading, setIsTrailerLoading] = useState(false)
+  const queryClient = useQueryClient()
+
+  const handleTrailerClick = async () => {
+    try {
+      setIsTrailerLoading(true)
+
+      const movieDetails = await queryClient.fetchQuery({
+        queryKey: ['movie', movie.id],
+        queryFn: () => getMovieById(movie.id),
+        staleTime: 5 * 60 * 1000
+      })
+
+      setTrailerId(movieDetails.trailerId)
+      setIsTrailerOpen(true)
+    } catch {
+      setTrailerId(null)
+      setIsTrailerOpen(true)
+    } finally {
+      setIsTrailerLoading(false)
+    }
+  }
 
   return (
     <article className='group relative w-44 shrink-0 overflow-hidden rounded-xl bg-zinc-900 sm:w-48'>
@@ -26,7 +51,7 @@ const MovieCard = ({ movie }) => {
         </Link>
 
         <div className='absolute inset-x-0 bottom-0 flex translate-y-3 items-center justify-between p-3 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100'>
-          <button onClick={() => setIsTrailerOpen(true)} aria-label={`Play ${title}`} className='flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition hover:bg-red-500 hover:text-white'>
+          <button onClick={handleTrailerClick} disabled={isTrailerLoading} aria-label={`Play ${title}`} className='flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition hover:bg-red-500 hover:text-white'>
             <Play size={16} fill='currentColor' />
           </button>
           <button onClick={() => toggleWatchlist(movie)} className='flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition hover:bg-white hover:text-black' aria-label={movieInWatchlist ? `Remove ${title} from watchlist` : `Add ${title} to watchlist`}>
@@ -46,7 +71,7 @@ const MovieCard = ({ movie }) => {
         <p className='mt-1 text-xs text-gray-500'>{genres.join(' • ')}</p>
       </Link>
 
-      <TrailerModal isOpen={isTrailerOpen} onClose={() => setIsTrailerOpen(false)} title={title} trailerId={movie.trailerId} />
+      <TrailerModal isOpen={isTrailerOpen} onClose={() => setIsTrailerOpen(false)} title={title} trailerId={trailerId} />
     </article>
   )
 }

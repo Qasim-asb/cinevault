@@ -6,6 +6,7 @@ const useMovie = id => {
     queryKey: ['movie', id],
     queryFn: () => getMovieById(id),
     enabled: Boolean(id),
+    retry: false
   })
 }
 

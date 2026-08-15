@@ -7,8 +7,10 @@ export const WatchlistProvider = ({ children }) => {
   const { user } = useAuth()
   const queryClient = useQueryClient()
 
+  const watchlistQueryKey = ['watchlist', user?._id]
+
   const { data: watchlist = [], isLoading, isError } = useQuery({
-    queryKey: ['watchlist'],
+    queryKey: watchlistQueryKey,
     queryFn: getWatchlist,
     enabled: Boolean(user),
     retry: false
@@ -17,14 +19,14 @@ export const WatchlistProvider = ({ children }) => {
   const addMutation = useMutation({
     mutationFn: addToWatchlist,
     onSuccess: data => {
-      queryClient.setQueryData(['watchlist'], data)
+      queryClient.setQueryData(watchlistQueryKey, data)
     }
   })
 
   const removeMutation = useMutation({
     mutationFn: removeFromWatchlist,
     onSuccess: data => {
-      queryClient.setQueryData(['watchlist'], data)
+      queryClient.setQueryData(watchlistQueryKey, data)
     }
   })
 

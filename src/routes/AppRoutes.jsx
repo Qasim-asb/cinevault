@@ -19,8 +19,8 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path='/watchlist' element={<Watchlist />} />
       </Route>
-      <Route path='signup' element={<Signup />} />
-      <Route path='login' element={<Login />} />
+      <Route path='/signup' element={<Signup />} />
+      <Route path='/login' element={<Login />} />
       <Route path='*' element={<NotFound />} />
     </Routes>
   )
