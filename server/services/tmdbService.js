@@ -10,9 +10,11 @@ const getApiConfig = () => ({
   params: { api_key: process.env.TMDB_API_KEY },
 })
 
-export const getPopularMovies = async () => {
+export const getPopularMovies = async (page = 1) => {
   const [moviesResponse, genresResponse] = await Promise.all([
-    tmdbApi.get('/movie/popular', getApiConfig()),
+    tmdbApi.get('/movie/popular', {
+      params: { ...getApiConfig().params, page }
+    }),
     tmdbApi.get('/genre/movie/list', getApiConfig()),
   ])
 
@@ -20,7 +22,7 @@ export const getPopularMovies = async () => {
     genresResponse.data.genres.map(genre => [genre.id, genre.name]),
   )
 
-  return moviesResponse.data.results.map(movie => ({
+  const movies = moviesResponse.data.results.map(movie => ({
     id: movie.id,
     title: movie.title,
     year: movie.release_date?.slice(0, 4) || null,
@@ -29,6 +31,13 @@ export const getPopularMovies = async () => {
     image: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null,
     description: movie.overview,
   }))
+
+  return {
+    movies,
+    page: moviesResponse.data.page,
+    totalPages: moviesResponse.data.total_pages,
+    totalResults: moviesResponse.data.total_results
+  }
 }
 
 export const getMovieById = async id => {
@@ -59,21 +68,26 @@ export const getMovieById = async id => {
   }
 }
 
-export const searchMovies = async query => {
+export const searchMovies = async (query, page = 1) => {
   const response = await tmdbApi.get('/search/movie', {
     params: {
       ...getApiConfig().params,
       query,
+      page
     },
   })
 
-  return response.data.results.map(movie => ({
-    id: movie.id,
-    title: movie.title,
-    year: movie.release_date?.slice(0, 4) || null,
-    rating: movie.vote_average,
-    genres: [],
-    image: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null,
-    description: movie.overview,
-  }))
+  return {
+    movies: response.data.results.map(movie => ({
+      id: movie.id,
+      title: movie.title,
+      year: movie.release_date?.slice(0, 4) || null,
+      rating: movie.vote_average,
+      genres: [],
+      image: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null,
+      description: movie.overview,
+    })),
+    page: response.data.page,
+    totalPages: response.data.total_pages
+  }
 }

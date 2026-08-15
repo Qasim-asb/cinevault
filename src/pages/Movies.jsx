@@ -2,7 +2,9 @@ import MovieRow from '../components/movie/MovieRow'
 import useMovies from '../hooks/useMovies'
 
 const Movies = () => {
-  const { data: movies = [], isLoading, isError } = useMovies()
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = useMovies()
+
+  const movies = data?.pages.flatMap(page => page.movies) ?? []
 
   if (isLoading) {
     return (
@@ -29,6 +31,14 @@ const Movies = () => {
         </div>
 
         <MovieRow title='All Movies' movies={movies} showViewAll={false} />
+
+        {hasNextPage && (
+          <div className='mt-10 flex justify-center'>
+            <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className='rounded-lg bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'>
+              {isFetchingNextPage ? 'Loading...' : 'Load More'}
+            </button>
+          </div>
+        )}
       </div>
     </main>
   )

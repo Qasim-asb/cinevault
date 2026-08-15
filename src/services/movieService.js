@@ -1,9 +1,9 @@
 import api from '../lib/axios'
 
-export const getMovies = async () => {
-  const { data } = await api.get('/movies')
+export const getMovies = async (page = 1) => {
+  const { data } = await api.get('/movies', { params: { page } })
 
-  return data.data ?? []
+  return data.data
 }
 
 export const getMovieById = async id => {
@@ -12,8 +12,8 @@ export const getMovieById = async id => {
   return data.data
 }
 
-export const searchMovies = async query => {
-  const { data } = await api.get('/movies/search', { params: { query } })
+export const searchMovies = async (query, page = 1) => {
+  const { data } = await api.get('/movies/search', { params: { query, page } })
 
-  return data.data ?? []
+  return data.data
 }

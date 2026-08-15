@@ -2,7 +2,8 @@ import { getMovieById, getPopularMovies, searchMovies } from '../services/tmdbSe
 
 export const getMovies = async (req, res, next) => {
   try {
-    const movies = await getPopularMovies()
+    const page = Number(req.query.page) || 1
+    const movies = await getPopularMovies(page)
 
     res.status(200).json({
       success: true,
@@ -37,7 +38,9 @@ export const searchMovieResults = async (req, res, next) => {
       })
     }
 
-    const movies = await searchMovies(query.trim())
+    const page = Number(req.query.page) || 1
+
+    const movies = await searchMovies(query.trim(), page)
 
     res.status(200).json({
       success: true,

@@ -8,7 +8,9 @@ const Search = () => {
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounce(query)
 
-  const { data: movies = [], isLoading, isError } = useSearchMovies(debouncedQuery)
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = useSearchMovies(debouncedQuery)
+
+  const movies = data?.pages.flatMap(page => page.movies) ?? []
 
   const clearSearch = () => {
     setQuery('')
@@ -59,9 +61,18 @@ const Search = () => {
                   <p className='mt-2 text-gray-500'>Unable to search movies. Please try again.</p>
                 </div>
               ) : movies.length > 0 ? (
-                <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
-                  {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)}
-                </div>
+                <>
+                  <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
+                    {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)}
+                  </div>
+                  {hasNextPage && (
+                    <div className='mt-10 flex justify-center'>
+                      <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className='rounded-lg bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'>
+                        {isFetchingNextPage ? 'Loading...' : 'Load More'}
+                      </button>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className='rounded-2xl border border-white/10 bg-zinc-950 px-6 py-16 text-center'>
                   <SearchIcon size={40} className='mx-auto text-gray-700' />
