@@ -2,12 +2,12 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import process from 'node:process'
-import movieRoutes from './routes/movieRoutes.js'
-import errorHandler from './middleware/errorHandler.js'
-import notFound from './middleware/notFound.js'
-import { connectDB } from './config/db.js'
-import authRoutes from './routes/authRoutes.js'
-import watchlistRoutes from './routes/watchlistRoutes.js'
+import movieRoutes from './src/routes/movieRoutes.js'
+import errorHandler from './src/middleware/errorHandler.js'
+import notFound from './src/middleware/notFound.js'
+import { connectDB } from './src/config/db.js'
+import authRoutes from './src/routes/authRoutes.js'
+import watchlistRoutes from './src/routes/watchlistRoutes.js'
 
 dotenv.config()
 
