@@ -1,12 +1,25 @@
 import mongoose from 'mongoose'
-import process from 'node:process'
+
+mongoose.connection.on('connected', () => {
+  console.log('MongoDB connected')
+})
+
+mongoose.connection.on('error', error => {
+  console.error('MongoDB error:', error.message)
+})
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected')
+})
 
 export const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI)
-    console.log('MongoDB connected')
-  } catch (error) {
-    console.error('MongoDB connection failed:', error.message)
-    process.exit(1)
-  }
+  await mongoose.connect(process.env.MONGO_URI, {
+    dbName: 'CineVault',
+    serverSelectionTimeoutMS: 5000
+  })
+}
+
+export const disconnectDB = async () => {
+  await mongoose.connection.close()
+  console.log('MongoDB connection closed')
 }
