@@ -1,7 +1,6 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
-import process from 'node:process'
 import movieRoutes from './src/routes/movieRoutes.js'
 import authRoutes from './src/routes/authRoutes.js'
 import watchlistRoutes from './src/routes/watchlistRoutes.js'
@@ -16,7 +15,7 @@ app.use(
   })
 )
 
-app.use(express.json())
+app.use(express.json({ limit: '10kb' }))
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({
